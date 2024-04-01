@@ -12,7 +12,8 @@ export class ProductsService {
 
   constructor(private apiService:ApiService) { }
 
-  getProducts=(url:string,params:PaginationsParams):Observable<Products>=>{
+  getProducts=(url:string,
+    params:PaginationsParams):Observable<Products>=>{
     return this.apiService.get(url,
     { 
       params,
@@ -22,6 +23,18 @@ export class ProductsService {
   }
 
 
+addProduct=(url:string,body:any):Observable<any>=>{
+  return this.apiService.post<any>(url,body,{});
+}
+
+editProduct=(url:string,body:any):Observable<any>=>{
+  return this.apiService.put<any>(url,body,{});
+}
+deleteProduct=(url:string):Observable<any>=>{
+  return this.apiService.delete<any>(url,{});
+}
+
+  
 }
 
 

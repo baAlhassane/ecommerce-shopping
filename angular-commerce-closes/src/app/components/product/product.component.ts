@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from '../../../types';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-product',
   standalone: true,
@@ -13,7 +14,14 @@ export class ProductComponent {
 
   @Input()
   product!:Product;
+  @Output()
+  productOutPut:EventEmitter<Product>=new EventEmitter();
+
   constructor(){}
 
-  // 2h05
+  ngOnInit(){
+    this.productOutPut.emit(this.product);
+  }
+
+  // 2h12
 }
