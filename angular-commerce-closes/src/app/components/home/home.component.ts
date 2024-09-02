@@ -4,6 +4,9 @@ import { Products,Product } from '../../../types';
 import { ProductComponent } from "../product/product.component";
 import { CommonModule } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
+import { EditPopupComponent } from "../edit-popup/edit-popup.component";
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
     selector: 'app-home',
@@ -11,10 +14,12 @@ import { PaginatorModule } from 'primeng/paginator';
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss',
     imports: [
-      ProductComponent,
-      CommonModule,
-      PaginatorModule
-    ]
+    ProductComponent,
+    CommonModule,
+    PaginatorModule,
+    EditPopupComponent,
+    ButtonModule
+]
 })
 export class HomeComponent {
 
@@ -22,16 +27,51 @@ export class HomeComponent {
   totalRecords:number=0;
   rows:number=5;
  static  num:number=0;
-  apiUrl:string="http://localhost:3000/clothes";
-constructor(private productService:ProductsService){
 
-}
+  apiUrl:string="http://localhost:3000/clothes";
+
+  displayEditPopup:boolean=false;
+  displayAddPopup:boolean=false;
+
+  selectedProduct:Product={
+    id:0,
+    name:"",
+    image:"",
+    price:"",
+    rating: 0
+
+  }
+
+  toggleEditPopup(product:Product){
+    this.selectedProduct=product;
+    this.displayEditPopup= true;
+  }
+
+  toggleDeletePopup(product:Product){
+    
+  }
+  toggleAddPopup(){
+    this.displayEditPopup= true;
+    // this.displayAddPopup= true;
+  }
+  onConfirmEdit(product:Product){
+    if(!this.selectedProduct.id){
+      return;
+    }
+    this.editProduct(product, this.selectedProduct.id);
+    this.displayEditPopup=false;
+  }
+  onConfirmAdd(product:Product){
+    this.addProduct(product);
+    this.displayAddPopup=false;
+  }
+constructor(private productService:ProductsService){}
 
 ngOnInit(){
   this.fetchProduct(0,this.rows);
 }
 
-onProductOutPut(product:Product){
+onProductOutput(product:Product){
   // let num1=this.num+1;
   let num1=HomeComponent.num++;
   console.log("onProductOutPut() "+num1,product);
