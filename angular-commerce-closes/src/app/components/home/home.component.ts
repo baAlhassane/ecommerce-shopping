@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ProductsService } from '../../services/products.service';
 import { Products,Product } from '../../../types';
 import { ProductComponent } from "../product/product.component";
 import { CommonModule } from '@angular/common';
-import { PaginatorModule } from 'primeng/paginator';
+import { Paginator, PaginatorModule } from 'primeng/paginator';
 import { EditPopupComponent } from "../edit-popup/edit-popup.component";
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -42,17 +42,30 @@ export class HomeComponent {
 
   }
 
+  @ViewChild("paginator")paginator:Paginator | undefined;
+
+  
   toggleEditPopup(product:Product){
     this.selectedProduct=product;
     this.displayEditPopup= true;
   }
 
+
+  
   toggleDeletePopup(product:Product){
-    
+    if(!product.id){
+      return
+     
+    }
+  
+    const id:number=product.id;
+    this.deleteProduct(product.id);
   }
+
+
   toggleAddPopup(){
-    this.displayEditPopup= true;
-    // this.displayAddPopup= true;
+   // this.displayEditPopup= true;
+     this.displayAddPopup= true;
   }
   onConfirmEdit(product:Product){
     if(!this.selectedProduct.id){
@@ -107,6 +120,9 @@ onPageChange(event:any){
   console.log(" onchangePage page  := "+event.page, "  onchangePage Perpage := "+event.rows);
   this.fetchProduct(event.page,event.rows);
 }
+ resetPaginator(){
+  this.paginator?.changePage(0);
+ }
 
 editProduct(product:Product,id:number){
   console.log(" edit ", product);
@@ -124,12 +140,13 @@ editProduct(product:Product,id:number){
 
   )
 }
-deleteProduct(product:Product,id:number){
+deleteProduct(id:number){
   this.productService.deleteProduct(this.apiUrl+"/"+`${id}`)
   .subscribe(
     {
       next:(product:Product)=>{
         this.fetchProduct(0,this.rows);
+        this.resetPaginator();
         console.log(product)
       },
       error:(error)=>{ 
@@ -140,7 +157,7 @@ deleteProduct(product:Product,id:number){
   )
 
 
-  console.log(" delete ",product);
+ // console.log(" delete ",product);
 }
 
 
@@ -150,7 +167,8 @@ addProduct(product:Product){
     {
       next:(product:Product)=>{
         this.fetchProduct(0,this.rows);
-        console.log(product)
+        console.log(product);
+        this.resetPaginator();
       },
       error:(error)=>{ 
       console.log(error)

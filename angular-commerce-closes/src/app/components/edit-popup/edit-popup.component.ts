@@ -6,7 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { RatingModule } from 'primeng/rating';
 import {  ButtonModule } from 'primeng/button';
 
-
+import { InputTextModule } from 'primeng/inputtext';
+import { AvatarModule } from 'primeng/avatar';
 @Component({
   selector: 'app-edit-popup',
   standalone: true,
@@ -15,7 +16,7 @@ import {  ButtonModule } from 'primeng/button';
   DialogModule, 
   FormsModule,
    RatingModule,
-   ButtonModule
+   ButtonModule, InputTextModule, AvatarModule
   ],
   templateUrl: './edit-popup.component.html',
   styleUrl: './edit-popup.component.scss'
@@ -41,7 +42,7 @@ export class EditPopupComponent {
   
   @Output()
   confirm:EventEmitter<Product>=new EventEmitter<any>();
- 
+  visible: boolean = false;
 
   constructor(){}
 
@@ -53,7 +54,7 @@ export class EditPopupComponent {
   
   onCancel(){
    this.display=false;
-   this.displayChange.emit(this.display);
+   this.displayChange.emit(this.display); 
   }
 
 

@@ -13,14 +13,14 @@
 
     <!-- Name  -->
     <div class="rows gap-05">
-        <span class="price-label">Name</span>
+        <span class="price-label">Name </span>
         <input type="text" [(ngModel)]="product.name">
 
     </div>
 
         <!--  Price  -->
     <div class="rows gap-05">
-        <span class="price-label">Price</span>
+        <span class="price-label">Price </span>
         <input type="text" [(ngModel)]="product.price">
 
     </div>
@@ -28,7 +28,7 @@
        <!-- image  -->
 
     <div class="rows gap-05">
-        <span class="price-label">Image</span>
+        <span class="price-label">Image </span>
         <input type="text" [(ngModel)]="product.image">
     </div>
 
@@ -46,13 +46,28 @@
         <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. -->
         <button type="button" 
-        pButton icon="pi pi-check"
+        pButton 
+        icon="pi pi-check"
         (click)="onConfirm()" label="confirm" 
         > </button>
         <button type="button" 
-        pButton icon="pi pi-times"
+        pButton 
+        icon="pi pi-times"
         (click)="closeDialog()" label="cancel" 
         > </button>
+
+        
+            <!-- <p-button 
+                label="Confirm" 
+                [text]="true" 
+                severity="secondary" 
+                (onClick)="onConfirm()" />
+            <p-button 
+                label="cancel" 
+                severity="severity" 
+                (onClick)="closeDialog()" 
+              /> -->
+      
 
     </p-footer>
 </p-dialog>

@@ -1,8 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Product } from '../../../types';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import {  ButtonModule } from 'primeng/button';
+import { ConfirmationService } from 'primeng/api';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
 
 @Component({
   selector: 'app-product',
@@ -10,12 +12,18 @@ import {  ButtonModule } from 'primeng/button';
   imports: [
     RatingModule,
     FormsModule,
-    ButtonModule
+    ButtonModule,
+    ConfirmPopupModule
   ],
+  providers:[ConfirmationService],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
+
 export class ProductComponent {
+
+  @ViewChild("deletButton")
+  deletButton:any;
 
   @Input()
   product!:Product;
@@ -24,11 +32,22 @@ export class ProductComponent {
   @Output()
   delete: EventEmitter<Product>=new EventEmitter();
 
-  constructor(){}
+  constructor(private confirmationService:ConfirmationService){}
 
-  ngOnInit(){
-   
+  ngOnInit(){}
+
+  confirmDelete(){
+    this.confirmationService.confirm(
+      {
+        target:this.deletButton.nativeElement,
+        message: " Are you sure that you want to delete the Product",
+        accept: () => {
+          this.deleteProduct()
+        },
+      });
   }
+
+
   editProduct(){
     this.edit.emit(this.product);
   }
